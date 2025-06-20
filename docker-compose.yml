@@ -1,23 +1,56 @@
-version: '3.8'
+# version: '3.8'
+
+# services:
+#   pg-mcp:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: pg-mcp
+#     ports:
+#       - "8000:8000"
+#     environment:
+#       - LOG_LEVEL=DEBUG
+#       - PYTHONUNBUFFERED=1
+#     volumes:
+#       # For development: mount app directory to enable hot-reloading
+#       - ./server:/app/server
+#     restart: unless-stopped
+#     networks:
+#       - pg-mcp-network
+
+# networks:
+#   pg-mcp-network:
+#     driver: bridge
+
+
+version: '3'
 
 services:
-  pg-mcp:
+  pg-mcp-server:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: pg-mcp
     ports:
       - "8000:8000"
     environment:
-      - LOG_LEVEL=DEBUG
-      - PYTHONUNBUFFERED=1
+      - PORT=8000
     volumes:
-      # For development: mount app directory to enable hot-reloading
       - ./server:/app/server
+      - ./extension_context:/app/extension_context
+    command: python -m server.app
     restart: unless-stopped
-    networks:
-      - pg-mcp-network
 
-networks:
-  pg-mcp-network:
-    driver: bridge
+  # Optional: Add a PostgreSQL database for testing
+  # postgres:
+  #   image: postgres:15
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=testdb
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
