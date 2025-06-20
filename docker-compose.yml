@@ -1,28 +1,3 @@
-# version: '3.8'
-
-# services:
-#   pg-mcp:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     container_name: pg-mcp
-#     ports:
-#       - "8000:8000"
-#     environment:
-#       - LOG_LEVEL=DEBUG
-#       - PYTHONUNBUFFERED=1
-#     volumes:
-#       # For development: mount app directory to enable hot-reloading
-#       - ./server:/app/server
-#     restart: unless-stopped
-#     networks:
-#       - pg-mcp-network
-
-# networks:
-#   pg-mcp-network:
-#     driver: bridge
-
-
 version: '3'
 
 services:
@@ -35,8 +10,9 @@ services:
     environment:
       - PORT=8000
     volumes:
-      - ./server:/app/server
-      - ./extension_context:/app/extension_context
+      - ./server:/app/server:ro
+      # Conditional volume mounts - won't fail if directory doesn't exist
+      - ${PWD}/extension_context:/app/extension_context:ro
     command: python -m server.app
     restart: unless-stopped
 
