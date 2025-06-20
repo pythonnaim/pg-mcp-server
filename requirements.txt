@@ -1,0 +1,16 @@
+# MCP dependencies
+fastmcp
+mcp
+pyyaml
+
+# PostgreSQL dependencies
+asyncpg
+psycopg2-binary
+
+# API client dependencies
+openai
+python-dotenv
+
+# Web server dependencies
+fastapi
+uvicorn
