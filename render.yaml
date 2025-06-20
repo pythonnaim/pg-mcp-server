@@ -1,0 +1,18 @@
+services:
+  # Web service for the simplified client using the specialized Dockerfile
+  - type: web
+    name: openai-pg-mcp-client
+    env: docker
+    dockerfilePath: ./Dockerfile.render
+    dockerContext: .
+    plan: free
+    autoDeploy: false
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o
+      - key: DATABASE_URL
+        sync: false
+      - key: PORT
+        value: 10000
